@@ -9,7 +9,7 @@ export default async function Products({ searchParams }) {
   const q = String(sp.q ?? '').trim().slice(0, 80);
   const category = Number(sp.category) || null;
 
-  const categories = db.prepare('SELECT * FROM categories ORDER BY id').all();
+  const categories = await db.prepare('SELECT * FROM categories ORDER BY id').all();
   const where = ["p.active = 1", "s.status = 'approved'"];
   const args = [];
   if (q) {
@@ -22,7 +22,7 @@ export default async function Products({ searchParams }) {
     args.push(category);
   }
 
-  const products = db
+  const products = await db
     .prepare(
       `SELECT p.*, s.name AS shop_name FROM products p
        JOIN shops s ON s.id = p.shop_id

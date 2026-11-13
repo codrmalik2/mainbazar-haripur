@@ -5,18 +5,23 @@ import { deleteProduct } from '@/lib/actions';
 import { money } from '@/lib/util';
 import { StatusBadge } from '@/components/ui';
 import { ShopCoverForm } from '@/components/Forms';
+import { imageUrl } from '@/lib/image-url';
 
 export const metadata = { title: 'My shop — MainBazar Haripur' };
 
 export default async function SellerDashboard() {
   const { shop } = await requireSeller();
-  const products = db.prepare('SELECT * FROM products WHERE shop_id = ? ORDER BY id DESC').all(shop.id);
-  const newOrders = db
-    .prepare("SELECT COUNT(*) AS n FROM orders WHERE shop_id = ? AND status = 'placed'")
-    .get(shop.id).n;
-  const openOrders = db
-    .prepare("SELECT COUNT(*) AS n FROM orders WHERE shop_id = ? AND status IN ('confirmed','packed')")
-    .get(shop.id).n;
+  const products = await db.prepare('SELECT * FROM products WHERE shop_id = ? ORDER BY id DESC').all(shop.id);
+  const newOrders = (
+    await db
+      .prepare("SELECT COUNT(*) AS n FROM orders WHERE shop_id = ? AND status = 'placed'")
+      .get(shop.id)
+  ).n;
+  const openOrders = (
+    await db
+      .prepare("SELECT COUNT(*) AS n FROM orders WHERE shop_id = ? AND status IN ('confirmed','packed')")
+      .get(shop.id)
+  ).n;
 
   return (
     <>
@@ -55,7 +60,7 @@ export default async function SellerDashboard() {
             <tbody>
               {products.map((p) => (
                 <tr key={p.id}>
-                  <td>{p.image && <img src={`/uploads/${p.image}`} alt="" width={48} height={48} style={{ objectFit: 'cover', borderRadius: 6 }} />}</td>
+                  <td>{p.image && <img src={imageUrl(p.image)} alt="" width={48} height={48} style={{ objectFit: 'cover', borderRadius: 6 }} />}</td>
                   <td>{p.name}</td>
                   <td>{money(p.price)}</td>
                   <td>{p.stock}</td>

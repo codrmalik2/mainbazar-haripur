@@ -6,7 +6,7 @@ export const metadata = { title: 'Admin — MainBazar Haripur' };
 
 export default async function Admin() {
   await requireAdmin();
-  const shops = db
+  const shops = await db
     .prepare(
       `SELECT s.*, u.email,
         (SELECT COUNT(*) FROM products p WHERE p.shop_id = s.id) AS product_count
@@ -14,7 +14,7 @@ export default async function Admin() {
        ORDER BY (s.status = 'pending') DESC, s.id DESC`
     )
     .all();
-  const totals = db
+  const totals = await db
     .prepare(
       `SELECT (SELECT COUNT(*) FROM orders) AS orders,
               (SELECT COUNT(*) FROM products) AS products`

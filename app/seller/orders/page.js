@@ -16,7 +16,7 @@ const BUTTON = {
 
 export default async function SellerOrders() {
   const { shop } = await requireSeller();
-  const orders = db
+  const orders = await db
     .prepare(
       `SELECT * FROM orders WHERE shop_id = ?
        ORDER BY (status IN ('delivered','cancelled')), id DESC LIMIT 200`
