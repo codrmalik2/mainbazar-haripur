@@ -18,6 +18,11 @@ export function ProductCard({ p }) {
 export function ShopCard({ s }) {
   return (
     <Link href={`/shops/${s.id}`} className="card shopcard">
+      {s.cover ? (
+        <img src={`/uploads/${s.cover}`} alt="" loading="lazy" className="shopcard-cover" />
+      ) : (
+        <div className="shopcard-cover plain" />
+      )}
       <strong>{s.name}</strong>
       <small className="muted">{s.address}</small>
       <small>{s.product_count} product{s.product_count === 1 ? '' : 's'}</small>
