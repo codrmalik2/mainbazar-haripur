@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
-import { login, placeOrder, registerSeller, saveProduct } from '@/lib/actions';
+import { login, placeOrder, registerSeller, saveProduct, saveShopCover } from '@/lib/actions';
 
 function Error({ state }) {
   return state?.error ? <p className="error" role="alert">{state.error}</p> : null;
@@ -80,6 +80,33 @@ export function ProductForm({ categories, product }) {
       </label>
       <Error state={state} />
       <button className="btn" disabled={pending}>{pending ? 'Saving…' : 'Save product'}</button>
+    </form>
+  );
+}
+
+export function ShopCoverForm({ cover }) {
+  const [state, action, pending] = useActionState(saveShopCover, null);
+  return (
+    <form action={action} className="form">
+      {cover ? (
+        <img src={`/uploads/${cover}`} alt="Current shop banner" className="cover-preview" />
+      ) : (
+        <p className="muted" style={{ margin: 0 }}>No banner yet. Customers see a plain colour header.</p>
+      )}
+      <label>
+        Banner image <small>(wide photo works best, e.g. 1200×400. JPG/PNG/WebP, max 3 MB)</small>
+        <input name="cover" type="file" accept="image/jpeg,image/png,image/webp" />
+      </label>
+      <Error state={state} />
+      {state?.ok && <p className="success" role="status">{state.ok}</p>}
+      <div className="actions">
+        <button className="btn" disabled={pending}>{pending ? 'Saving…' : 'Upload banner'}</button>
+        {cover && (
+          <button className="btn ghost" name="remove" value="1" formNoValidate disabled={pending}>
+            Remove banner
+          </button>
+        )}
+      </div>
     </form>
   );
 }

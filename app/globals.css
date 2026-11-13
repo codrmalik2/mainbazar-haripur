@@ -56,6 +56,12 @@ h1, h2, h3 { line-height: 1.2; }
 .card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
 .shopcard { display: flex; flex-direction: column; gap: 4px; }
 .shopcard:hover { box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+.shopcard-cover { margin: -16px -16px 8px; width: calc(100% + 32px); max-width: none; aspect-ratio: 3 / 1; object-fit: cover; border-radius: 12px 12px 0 0; background: #e2e8f0; }
+.shop-cover { width: 100%; aspect-ratio: 3 / 1; max-height: 320px; object-fit: cover; border-radius: 12px; margin-bottom: 16px; background: #e2e8f0; }
+.shop-cover.plain, .shopcard-cover.plain { background: linear-gradient(135deg, var(--brand), #14b8a6); }
+.shop-cover.plain { aspect-ratio: auto; height: 120px; }
+.cover-preview { width: 100%; aspect-ratio: 3 / 1; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+.success { color: #15803d; font-weight: 600; }
 
 .form { display: flex; flex-direction: column; gap: 12px; max-width: 520px; }
 .form label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: .95rem; }

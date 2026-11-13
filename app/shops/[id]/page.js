@@ -18,6 +18,11 @@ export default async function ShopPage({ params }) {
 
   return (
     <>
+      {shop.cover ? (
+        <img src={`/uploads/${shop.cover}`} alt={`${shop.name} banner`} className="shop-cover" />
+      ) : (
+        <div className="shop-cover plain" aria-hidden="true" />
+      )}
       <div className="card" style={{ marginBottom: 24 }}>
         <h1 style={{ marginTop: 0 }}>{shop.name}</h1>
         {shop.description && <p>{shop.description}</p>}

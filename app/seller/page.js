@@ -4,6 +4,7 @@ import { requireSeller } from '@/lib/auth';
 import { deleteProduct } from '@/lib/actions';
 import { money } from '@/lib/util';
 import { StatusBadge } from '@/components/ui';
+import { ShopCoverForm } from '@/components/Forms';
 
 export const metadata = { title: 'My shop — MainBazar Haripur' };
 
@@ -38,6 +39,11 @@ export default async function SellerDashboard() {
         <Link href="/seller/products/new" className="btn ghost">+ Add product</Link>
       </div>
       <p className="muted">{openOrders} order(s) in progress.</p>
+
+      <h2>Shop banner</h2>
+      <div className="card" style={{ marginBottom: 24 }}>
+        <ShopCoverForm cover={shop.cover} />
+      </div>
 
       <h2>My products</h2>
       {products.length ? (
