@@ -3,10 +3,11 @@ import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { money, waLink } from '@/lib/util';
 import { OrderForm } from '@/components/Forms';
+import { imageUrl } from '@/lib/image-url';
 
 export default async function ProductPage({ params }) {
   const { id } = await params;
-  const p = db
+  const p = await db
     .prepare(
       `SELECT p.*, c.name AS category_name,
               s.name AS shop_name, s.address AS shop_address, s.phone AS shop_phone,
@@ -23,7 +24,7 @@ export default async function ProductPage({ params }) {
 
   return (
     <div className="detail">
-      <div>{p.image && <img className="main" src={`/uploads/${p.image}`} alt={p.name} />}</div>
+      <div>{p.image && <img className="main" src={imageUrl(p.image)} alt={p.name} />}</div>
       <div className="stack">
         <small className="muted">{p.category_name}</small>
         <h1 style={{ margin: 0 }}>{p.name}</h1>

@@ -7,7 +7,7 @@ export const metadata = { title: 'Your order — MainBazar Haripur' };
 
 export default async function OrderPage({ params }) {
   const { code } = await params;
-  const o = db
+  const o = await db
     .prepare(
       `SELECT o.*, s.name AS shop_name, s.whatsapp AS shop_whatsapp, s.phone AS shop_phone
        FROM orders o JOIN shops s ON s.id = o.shop_id WHERE o.code = ?`

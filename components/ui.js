@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { money, STATUS_LABEL, ORDER_STEPS } from '@/lib/util';
+import { imageUrl } from '@/lib/image-url';
 
 export function ProductCard({ p }) {
   return (
     <Link href={`/products/${p.id}`} className="pcard">
-      {p.image ? <img src={`/uploads/${p.image}`} alt={p.name} loading="lazy" /> : <div className="noimg" />}
+      {p.image ? <img src={imageUrl(p.image)} alt={p.name} loading="lazy" /> : <div className="noimg" />}
       <div className="pcard-body">
         <strong>{p.name}</strong>
         <span className="price">{money(p.price)}</span>
@@ -19,7 +20,7 @@ export function ShopCard({ s }) {
   return (
     <Link href={`/shops/${s.id}`} className="card shopcard">
       {s.cover ? (
-        <img src={`/uploads/${s.cover}`} alt="" loading="lazy" className="shopcard-cover" />
+        <img src={imageUrl(s.cover)} alt="" loading="lazy" className="shopcard-cover" />
       ) : (
         <div className="shopcard-cover plain" />
       )}

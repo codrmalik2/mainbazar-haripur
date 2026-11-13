@@ -3,8 +3,8 @@ import { ShopCard } from '@/components/ui';
 
 export const metadata = { title: 'Shops — MainBazar Haripur' };
 
-export default function Shops() {
-  const shops = db
+export default async function Shops() {
+  const shops = await db
     .prepare(
       `SELECT s.*, (SELECT COUNT(*) FROM products p WHERE p.shop_id = s.id AND p.active = 1) AS product_count
        FROM shops s WHERE s.status = 'approved' ORDER BY s.name`

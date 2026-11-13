@@ -2,13 +2,14 @@ import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { waLink } from '@/lib/util';
 import { ProductCard } from '@/components/ui';
+import { imageUrl } from '@/lib/image-url';
 
 export default async function ShopPage({ params }) {
   const { id } = await params;
-  const shop = db.prepare("SELECT * FROM shops WHERE id = ? AND status = 'approved'").get(Number(id));
+  const shop = await db.prepare("SELECT * FROM shops WHERE id = ? AND status = 'approved'").get(Number(id));
   if (!shop) notFound();
 
-  const products = db
+  const products = await db
     .prepare(
       `SELECT p.*, s.name AS shop_name FROM products p
        JOIN shops s ON s.id = p.shop_id
@@ -19,7 +20,7 @@ export default async function ShopPage({ params }) {
   return (
     <>
       {shop.cover ? (
-        <img src={`/uploads/${shop.cover}`} alt={`${shop.name} banner`} className="shop-cover" />
+        <img src={imageUrl(shop.cover)} alt={`${shop.name} banner`} className="shop-cover" />
       ) : (
         <div className="shop-cover plain" aria-hidden="true" />
       )}

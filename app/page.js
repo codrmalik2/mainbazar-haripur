@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { db } from '@/lib/db';
 import { ProductCard, ShopCard } from '@/components/ui';
 
-export default function Home() {
-  const categories = db.prepare('SELECT * FROM categories ORDER BY id').all();
-  const products = db
+export default async function Home() {
+  const categories = await db.prepare('SELECT * FROM categories ORDER BY id').all();
+  const products = await db
     .prepare(
       `SELECT p.*, s.name AS shop_name FROM products p
        JOIN shops s ON s.id = p.shop_id
@@ -12,7 +12,7 @@ export default function Home() {
        ORDER BY p.id DESC LIMIT 8`
     )
     .all();
-  const shops = db
+  const shops = await db
     .prepare(
       `SELECT s.*, (SELECT COUNT(*) FROM products p WHERE p.shop_id = s.id AND p.active = 1) AS product_count
        FROM shops s WHERE s.status = 'approved' ORDER BY s.id DESC LIMIT 6`

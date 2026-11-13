@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import { login, placeOrder, registerSeller, saveProduct, saveShopCover } from '@/lib/actions';
+import { imageUrl } from '@/lib/image-url';
 
 function Error({ state }) {
   return state?.error ? <p className="error" role="alert">{state.error}</p> : null;
@@ -73,7 +74,7 @@ export function ProductForm({ categories, product }) {
         Photo {product ? <small>(leave empty to keep current)</small> : <small>(JPG/PNG/WebP, max 3 MB)</small>}
         <input name="image" type="file" accept="image/jpeg,image/png,image/webp" required={!product} />
       </label>
-      {product?.image && <img src={`/uploads/${product.image}`} alt="" className="thumb" />}
+      {product?.image && <img src={imageUrl(product.image)} alt="" className="thumb" />}
       <label className="check">
         <input type="checkbox" name="active" defaultChecked={product ? !!product.active : true} />
         Show this product to customers
@@ -89,7 +90,7 @@ export function ShopCoverForm({ cover }) {
   return (
     <form action={action} className="form">
       {cover ? (
-        <img src={`/uploads/${cover}`} alt="Current shop banner" className="cover-preview" />
+        <img src={imageUrl(cover)} alt="Current shop banner" className="cover-preview" />
       ) : (
         <p className="muted" style={{ margin: 0 }}>No banner yet. Customers see a plain colour header.</p>
       )}
