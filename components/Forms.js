@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
-import { login, placeOrder, registerSeller, saveProduct, saveShopCover } from '@/lib/actions';
+import { login, placeOrder, saveProduct, saveShopCover } from '@/lib/actions';
 import { imageUrl } from '@/lib/image-url';
 
 function Error({ state }) {
@@ -16,33 +16,6 @@ export function LoginForm() {
       <label>Password<input name="password" type="password" required autoComplete="current-password" /></label>
       <Error state={state} />
       <button className="btn" disabled={pending}>{pending ? 'Logging in…' : 'Log in'}</button>
-    </form>
-  );
-}
-
-export function RegisterForm() {
-  const [state, action, pending] = useActionState(registerSeller, null);
-  return (
-    <form action={action} className="form">
-      <label>Shop name<input name="shopName" required maxLength={80} /></label>
-      <label>Shop address<input name="address" required placeholder="Street, area, Haripur" /></label>
-      <label>Phone number<input name="phone" required placeholder="03xx xxxxxxx" /></label>
-      <label>
-        WhatsApp number <small>(leave empty if same as phone)</small>
-        <input name="whatsapp" placeholder="03xx xxxxxxx" />
-      </label>
-      <label>
-        About your shop <small>(optional)</small>
-        <textarea name="description" rows={3} maxLength={500} />
-      </label>
-      <hr />
-      <label>Email (for login)<input name="email" type="email" required autoComplete="email" /></label>
-      <label>
-        Password <small>(min 8 characters)</small>
-        <input name="password" type="password" required minLength={8} autoComplete="new-password" />
-      </label>
-      <Error state={state} />
-      <button className="btn" disabled={pending}>{pending ? 'Creating…' : 'Register my shop'}</button>
     </form>
   );
 }

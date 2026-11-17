@@ -1,9 +1,9 @@
 import { db } from '@/lib/db';
-import { requireSeller } from '@/lib/auth';
+import { requireApprovedSeller } from '@/lib/auth';
 import { ProductForm } from '@/components/Forms';
 
 export default async function NewProduct() {
-  await requireSeller();
+  await requireApprovedSeller();
   const categories = await db.prepare('SELECT * FROM categories ORDER BY id').all();
   return (
     <>

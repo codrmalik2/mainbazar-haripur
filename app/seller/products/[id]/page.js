@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
-import { requireSeller } from '@/lib/auth';
+import { requireApprovedSeller } from '@/lib/auth';
 import { ProductForm } from '@/components/Forms';
 
 export default async function EditProduct({ params }) {
-  const { shop } = await requireSeller();
+  const { shop } = await requireApprovedSeller();
   const { id } = await params;
   const product = await db
     .prepare('SELECT * FROM products WHERE id = ? AND shop_id = ?')

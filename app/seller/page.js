@@ -11,6 +11,7 @@ export const metadata = { title: 'My shop — MainBazar Haripur' };
 
 export default async function SellerDashboard() {
   const { shop } = await requireSeller();
+  const approved = shop.status === 'approved';
   const products = await db.prepare('SELECT * FROM products WHERE shop_id = ? ORDER BY id DESC').all(shop.id);
   const newOrders = (
     await db
@@ -31,7 +32,10 @@ export default async function SellerDashboard() {
       </div>
 
       {shop.status === 'pending' && (
-        <div className="banner">Your shop is waiting for approval. You can add products now — customers will see them once approved.</div>
+        <div className="banner">
+          Your shop is currently <strong>Pending Admin Approval</strong>. Once your registration fee is verified,
+          your store will go live and you can start adding products. We will email you when it is approved.
+        </div>
       )}
       {shop.status === 'rejected' && (
         <div className="banner bad">Your shop was not approved. Please contact the MainBazar team.</div>
@@ -41,7 +45,7 @@ export default async function SellerDashboard() {
         <Link href="/seller/orders" className="btn">
           Orders {newOrders > 0 && `(${newOrders} new)`}
         </Link>
-        <Link href="/seller/products/new" className="btn ghost">+ Add product</Link>
+        {approved && <Link href="/seller/products/new" className="btn ghost">+ Add product</Link>}
       </div>
       <p className="muted">{openOrders} order(s) in progress.</p>
 
@@ -67,7 +71,7 @@ export default async function SellerDashboard() {
                   <td>{p.active ? 'Yes' : 'Hidden'}</td>
                   <td>
                     <div className="actions">
-                      <Link href={`/seller/products/${p.id}`} className="btn ghost small">Edit</Link>
+                      {approved && <Link href={`/seller/products/${p.id}`} className="btn ghost small">Edit</Link>}
                       <form action={deleteProduct}>
                         <input type="hidden" name="id" value={p.id} />
                         <button className="btn danger small">Delete</button>
@@ -80,7 +84,11 @@ export default async function SellerDashboard() {
           </table>
         </div>
       ) : (
-        <p className="muted">You haven't added any products yet. Click "Add product" to start.</p>
+        <p className="muted">
+          {approved
+            ? 'You haven\'t added any products yet. Click "Add product" to start.'
+            : 'You can add products as soon as your shop is approved.'}
+        </p>
       )}
     </>
   );
