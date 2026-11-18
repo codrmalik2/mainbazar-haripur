@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-async function post(url, data) {
+// Also used by components/ForgotPassword.js
+export async function post(url, data) {
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -18,7 +19,7 @@ async function post(url, data) {
   }
 }
 
-function Msg({ error, info }) {
+export function Msg({ error, info }) {
   if (error) return <p className="error" role="alert">{error}</p>;
   if (info) return <p className="success" role="status">{info}</p>;
   return null;

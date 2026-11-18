@@ -34,6 +34,10 @@ automatically on first run. **Back up the `data/` folder** — it holds everythi
   2. Pack the order → tick **Packed**
   3. Deliver and collect cash → tick **Delivered**
   (Cancelling returns the items to stock.)
+- **Forgot password** (sellers and admin): "Forgot password?" on `/login` → `/forgot-password`.
+  Enter the registered email → 6-digit code (valid 10 minutes) → the account/shop name is
+  shown for confirmation → choose a new password. All existing logins for that account are
+  logged out and a "password changed" email is sent.
 - **Admin** logs in at `/login` with the `.env.local` credentials and approves shops at `/admin`
   (pending registrations are listed first). Shops are hidden from customers, and can't add
   products, until approved.
