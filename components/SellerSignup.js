@@ -11,9 +11,10 @@ async function post(url, data) {
       body: JSON.stringify(data),
     });
     const json = await res.json().catch(() => ({}));
-    return res.ok ? json : { error: json.error || 'Something went wrong. Please try again.', ...json };
-  } catch {
-    return { error: 'Network error. Check your internet connection and try again.' };
+    // Show the server's exact error message
+    return res.ok ? json : { ...json, error: json.error || `Server error (HTTP ${res.status}). Please try again.` };
+  } catch (e) {
+    return { error: `Network error: ${e?.message || e}. Check your internet connection and try again.` };
   }
 }
 

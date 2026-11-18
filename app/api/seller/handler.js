@@ -24,7 +24,8 @@ export function jsonRoute(fn) {
         return Response.json({ error: e.message, ...e.extra }, { status: e.status, headers });
       }
       console.error('Seller sign-up error', e);
-      return Response.json({ error: 'Something went wrong. Please try again.' }, { status: 500 });
+      const detail = String(e?.message || e);
+      return Response.json({ error: `Something went wrong: ${detail}`, detail }, { status: 500 });
     }
   };
 }
